@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.darren_spriet_final_project.R;
 
 
 import android.app.Activity;
@@ -96,13 +95,21 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		SharedPreferences myPrefs =PreferenceManager.getDefaultSharedPreferences(this);
 		myPrefs.registerOnSharedPreferenceChangeListener(this);
 		String value = myPrefs.getString("dataLocation", "");
-		loadPriceFile(Integer.parseInt(value));
+		try{
+			loadPriceFile(Integer.parseInt(value));
+
+		}catch(NumberFormatException x){
+			
+			
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		Log.e(TAG, "WHAT IS THIS "); 
 		saveItem =  menu.getItem(0);
 		loadItem =  menu.getItem(1);
 		showHistory = menu.getItem(2);

@@ -2,7 +2,6 @@ package com.example.spriet_muthukrishnan;
 
 import java.util.Random;
 
-import com.example.darren_spriet_final_project.R;
 
 import android.app.Activity;
 import android.content.Intent;
