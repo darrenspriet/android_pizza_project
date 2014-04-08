@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="enableSavingOrder"
+        android:summary="for quick loading of favourite order"
+        android:title="Enable favourite order" />
+
+    <ListPreference
+        android:dialogTitle="Choose where to retrieve prices"
+        android:entries="@array/priceLocation"
+        android:entryValues="@array/priceLocationValues"
+        android:key="dataLocation"
+        android:summary="for pricing information"
+        android:title="Data location"/>
+
+    <PreferenceCategory android:title="ORDER HISTORY" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="keepHistory"
+            android:summary="of pizza orders"
+            android:title="Keep history" />
+          
+        <ListPreference
+            android:dialogTitle="Choose how many to save"
+            android:entries="@array/numberOfOrders"
+            android:entryValues="@array/numberOfOrdersValues"
+            android:key="numOfOrders"
+            android:summary="to keep in history"
+            android:title="Number of orders" />
+        
+          <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="keepHistoryUnique"
+            android:summary="when saving historical orders"
+            android:title="Unique orders only" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

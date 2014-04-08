@@ -1,0 +1,18 @@
+{
+   "pizza-prices": {
+      "version": "local",
+      "small": 8,
+      "medium": 10,
+      "large": 12,
+      "small-factor": 0,
+      "medium-factor": 0.25,
+      "large-factor": 0.50,
+      "toppings": [
+         {"topping": "Cheese", "price": 1.0},
+         {"topping": "Green Pepper", "price": 1.0},
+         {"topping": "Pepperoni", "price": 1.5},
+         {"topping": "Sausage", "price": 1.75},
+         {"topping": "Bacon", "price": 1.25}
+      ]
+   }
+}

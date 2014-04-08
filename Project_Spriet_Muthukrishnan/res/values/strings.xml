@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pizza Ordering</string>
+    <string name="app_settings_name">Pizza Ordering Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
+    <string name="showHistory">Show History</string>
+    
+    <string-array name="numberOfOrders">
+        <item>1 pizza order only</item>
+        <item>3 pizza orders</item>
+        <item>5 pizza orders</item>
+        <item>10 pizza orders</item>
+    </string-array>
+    <string-array name="numberOfOrdersValues">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="priceLocation">
+        <item>Local file(default)</item>
+        <item>Server file 1</item>
+        <item>Server file 2</item>
+        <item>Server file 3</item>
+    </string-array>
+    <string-array name="priceLocationValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+</resources>
