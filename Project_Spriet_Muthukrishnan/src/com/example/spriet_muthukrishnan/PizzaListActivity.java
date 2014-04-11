@@ -70,8 +70,6 @@ public class PizzaListActivity extends ListActivity {
 		// add two menu items
 		menu.add("Remove from History");		
 		menu.add("Load to Order");
-		
-		
 	}
 
     
@@ -86,12 +84,22 @@ public class PizzaListActivity extends ListActivity {
 			return true;
 		} else if (item.getTitle().equals("Load to Order")) {
 			// put code here that will return the pizza to the parent 
-			// Activity
-
+			// Activity			
+			loadToOrder(Pizza.getSizeString(pizza.getSize()), pizza.getToppingsList());
 			return true;
 		} 
 		
 		return super.onContextItemSelected(item);
+	}
+	
+	// send success along with total back
+	private void loadToOrder(String size, String toppings) {
+		Intent intent = new Intent();
+		Toast.makeText(this, size, Toast.LENGTH_LONG).show();
+		intent.putExtra("size", size);
+		intent.putExtra("toppings", toppings);
+		setResult(RESULT_OK, intent);
+		finish();
 	}
 	
 	private class DatabaseTask extends AsyncTask<Long, Void, Cursor> {

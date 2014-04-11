@@ -68,7 +68,7 @@ public class PizzaCursorAdapter extends ResourceCursorAdapter {
 		else if (size.equals("Large")) {
 			pizza.setSize(2);
 		}
-		String[] separated = toppings.split("\n");
+		String[] separated = toppings.split(", ");
 		for (String string : separated) {
 			
 			pizza.addTopping(string);

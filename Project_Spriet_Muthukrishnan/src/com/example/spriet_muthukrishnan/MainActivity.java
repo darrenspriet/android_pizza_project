@@ -61,6 +61,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 
 	// for requestCode in startActivityforResult and onActivityResult
 	private static int PAYMENT_ACTIVITY = 1;
+	private static int PIZZA_LIST_ACTIVITY = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -266,7 +267,53 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 				txtResult.setText("Payment not accepted!");
 				txtResult.setTextColor(Color.RED);
 			}
-		} else {
+		} 
+		else if (requestCode == PIZZA_LIST_ACTIVITY) {
+			// User has selected an order to load
+			if (resultCode == RESULT_OK) {
+				
+				clearControls();
+				RadioButton grpSmall = (RadioButton) findViewById(R.id.radSmall);
+				RadioButton grpMedium = (RadioButton) findViewById(R.id.radMedium);
+				RadioButton grpLarge = (RadioButton) findViewById(R.id.radLarge);
+				//Set the grp to the proper size of pizza
+				String size = data.getStringExtra("size");
+				if(size.equals("Small")){
+					grpSmall.setChecked(true);
+					pizza.setSize(Pizza.SMALL);
+				}
+				else if(size.equals("Medium")){
+					grpMedium.setChecked(true);
+					pizza.setSize(Pizza.MEDIUM);
+				}
+				else if(size.equals("Large")){
+					grpLarge.setChecked(true);
+					pizza.setSize(Pizza.LARGE);
+				}
+				//Set the proper checked boxes so they are correct from the loading of shared preferences
+				String toppings = data.getStringExtra("toppings");
+				String[] separated = toppings.split("\n");
+				for (String string : separated) {
+					
+					if(string.equals(Pizza.CHEESE)){
+						chkCheese.setChecked(true);
+					}
+					else if(string.equals(Pizza.PEPPERONI)){
+						chkPeperoni.setChecked(true);
+					}
+					else if(string.equals(Pizza.SAUSAGE)){
+						chkSausage.setChecked(true);
+					}
+					else if(string.equals(Pizza.BACON)){
+						chkBacon.setChecked(true);
+					}
+					else if(string.equals(Pizza.GREEN_PEPPER)){
+						chkPepper.setChecked(true);
+					}
+				}
+			}
+		}
+		else {
 			Toast.makeText(this, "Invalid request code in onActivityResult", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -340,11 +387,8 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 				}
 				Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();	
 			}
-			
 		}
-		
 	}
-
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_settings) {
@@ -375,15 +419,15 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			RadioButton grpMedium = (RadioButton) findViewById(R.id.radMedium);
 			RadioButton grpLarge = (RadioButton) findViewById(R.id.radLarge);
 			//Set the grp to the proper size of pizza
-			if(myPrefs.getInt("size", 10)==0){
+			if(myPrefs.getInt("size", 0)==0){
 				grpSmall.setChecked(true);
 				pizza.setSize(Pizza.SMALL);
 			}
-			else if(myPrefs.getInt("size", 10)==1){
+			else if(myPrefs.getInt("size", 0)==1){
 				grpMedium.setChecked(true);
 				pizza.setSize(Pizza.MEDIUM);
 			}
-			else if(myPrefs.getInt("size", 10)==2){
+			else if(myPrefs.getInt("size", 0)==2){
 				grpLarge.setChecked(true);
 				pizza.setSize(Pizza.LARGE);
 			}
@@ -413,7 +457,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		else if (item.getItemId() == R.id.action_showHistory) {
 			// Start the ListActivity that will show all records
 			Intent intent = new Intent(this, PizzaListActivity.class);	
-			startActivity(intent);
+			startActivityForResult(intent, PIZZA_LIST_ACTIVITY);
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
