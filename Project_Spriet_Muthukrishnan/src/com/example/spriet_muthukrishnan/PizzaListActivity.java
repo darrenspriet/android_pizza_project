@@ -59,10 +59,10 @@ public class PizzaListActivity extends ListActivity {
 		// of a Pizza instance
 		String toppings = pizza.getToppingsList();
 		String[] separated = toppings.split("\n");
-		toppings = "";
-		for (String string : separated) {
+		toppings = separated[0];
+		for (int i = 1; i < separated.length; i++) {
 			
-			toppings += string + ", ";
+			toppings += ", " + separated[i];
 		}
 		String title = Pizza.getSizeString(pizza.getSize()) + " pizza with " + toppings;
 		menu.setHeaderTitle(title);
@@ -70,6 +70,8 @@ public class PizzaListActivity extends ListActivity {
 		// add two menu items
 		menu.add("Remove from History");		
 		menu.add("Load to Order");
+		
+		
 	}
 
     

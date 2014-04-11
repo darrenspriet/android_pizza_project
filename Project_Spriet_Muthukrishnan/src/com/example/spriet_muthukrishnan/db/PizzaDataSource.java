@@ -47,7 +47,14 @@ public class PizzaDataSource {
 		// use ContentValues to group field names and values
 		ContentValues values = new ContentValues();
 		values.put(SIZE_COLUMN, Pizza.getSizeString(pizza.getSize()));
-		values.put(TOPPINGS_COLUMN, pizza.getToppingsList());
+		String toppings = pizza.getToppingsList();
+		String[] separated = toppings.split("\n");
+		toppings = separated[0];
+		for (int i = 1; i < separated.length; i++) {
+			
+			toppings += ", " + separated[i];
+		}
+		values.put(TOPPINGS_COLUMN, toppings);
 		
 		long dbId = database.insert(TABLE_NAME, null, values);
 		pizza.setDbId(dbId);

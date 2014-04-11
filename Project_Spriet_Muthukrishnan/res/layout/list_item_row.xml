@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/rowTxtSize"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Large Text"
@@ -13,7 +14,9 @@
 
     <TextView
         android:id="@+id/rowTxtToppings"
-        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceMedium" />

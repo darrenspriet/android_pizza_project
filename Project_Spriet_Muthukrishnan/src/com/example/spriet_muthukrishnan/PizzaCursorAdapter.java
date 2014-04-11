@@ -41,7 +41,7 @@ public class PizzaCursorAdapter extends ResourceCursorAdapter {
 		TextView txtToppings = (TextView) row.findViewById(R.id.rowTxtToppings);
 		
 		// set values; cursor is already at proper position
-		txtSize.setText(cursor.getString(PizzaDataSource.SIZE_COLUMN_POSITION));
+		txtSize.setText(cursor.getString(PizzaDataSource.SIZE_COLUMN_POSITION) + " pizza with");
 		txtToppings.setText(cursor.getString(PizzaDataSource.TOPPINGS_COLUMN_POSITION));
 	}
 
