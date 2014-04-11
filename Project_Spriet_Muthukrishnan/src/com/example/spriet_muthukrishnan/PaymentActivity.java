@@ -114,8 +114,10 @@ public class PaymentActivity extends Activity {
 			// create PizzaDataSource and call savePizza method
 			PizzaDataSource pizzaData = new PizzaDataSource(getBaseContext());
 			
-			// store returned Student; it now has the id
-			pizza = pizzaData.savePizza(params[0]);
+			// Save this pizza order to the database
+			SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(PaymentActivity.this);
+			boolean uniqueHistory = myPrefs.getBoolean("keepHistoryUnique",false);
+			pizzaData.savePizza(params[0], uniqueHistory);
 			
 			return null;
 		}

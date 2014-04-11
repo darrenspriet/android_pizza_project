@@ -364,7 +364,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 					saveItem.setVisible(false);
 					loadItem.setVisible(false);
 				}
-				Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();
+				//Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();
 			}
 			else if(key.equals("keepHistory")){
 				
@@ -375,7 +375,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 					//Hiding the MenuItems
 					showHistory.setVisible(false);
 				}
-				Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();	
+				//Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();	
 			}
 			else if(key.equals("keepHistoryUnique")){
 				
@@ -385,7 +385,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 				}else{
 					//Off
 				}
-				Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();	
+				//Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();	
 			}
 		}
 	}

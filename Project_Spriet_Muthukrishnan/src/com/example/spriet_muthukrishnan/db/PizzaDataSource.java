@@ -4,9 +4,12 @@ import com.example.spriet_muthukrishnan.Pizza;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 public class PizzaDataSource {
 	
@@ -37,7 +40,7 @@ public class PizzaDataSource {
 	}
 
 	// method for saving pizza order info into database
-	public Pizza savePizza(Pizza pizza) {
+	public Pizza savePizza(Pizza pizza, boolean unique) {
 		
 		// get writable database since we want to insert a row
 		if (database == null || !database.isOpen() || database.isReadOnly()) {
@@ -56,6 +59,15 @@ public class PizzaDataSource {
 		}
 		values.put(TOPPINGS_COLUMN, toppings);
 		
+		Cursor records = database.rawQuery("SELECT * from Pizzas WHERE size = " + "'" +
+											Pizza.getSizeString(pizza.getSize()) + "'" + 
+											" AND toppings = " + "'" + toppings + "'", null);
+		// If requested, only save unique orders!
+		if (unique && records.getCount() > 0)
+		{
+			return null;
+		}
+		
 		long dbId = database.insert(TABLE_NAME, null, values);
 		pizza.setDbId(dbId);
 		
@@ -71,10 +83,10 @@ public class PizzaDataSource {
 		}
 		
 		// this will return all records form the table
-		Cursor pizzas = database.query(TABLE_NAME, null, null, null, null, null, null);
+		//Cursor pizzas = database.query(TABLE_NAME, null, null, null, null, null, null);
 
 		// could also use below
-//		Cursor pizzas = database.rawQuery("SELECT * from Pizzas", null);
+		Cursor pizzas = database.rawQuery("SELECT * from Pizzas", null);
 		
 		return pizzas;
 	}

@@ -95,7 +95,6 @@ public class PizzaListActivity extends ListActivity {
 	// send success along with total back
 	private void loadToOrder(String size, String toppings) {
 		Intent intent = new Intent();
-		Toast.makeText(this, size, Toast.LENGTH_LONG).show();
 		intent.putExtra("size", size);
 		intent.putExtra("toppings", toppings);
 		setResult(RESULT_OK, intent);
