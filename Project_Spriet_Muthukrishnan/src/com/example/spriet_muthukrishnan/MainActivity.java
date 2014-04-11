@@ -12,8 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -88,20 +86,14 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		pizza = new Pizza();
 
 		// set the screen to default to small
-
+		
 		
 		
 				
-		SharedPreferences myPrefs =PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		myPrefs.registerOnSharedPreferenceChangeListener(this);
-		String value = myPrefs.getString("dataLocation", "");
-		try{
-			loadPriceFile(Integer.parseInt(value));
-
-		}catch(NumberFormatException x){
-			
-			
-		}
+		String value = myPrefs.getString("dataLocation", "0");
+		loadPriceFile(Integer.parseInt(value));
 	}
 
 	@Override
@@ -109,7 +101,6 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		Log.e(TAG, "WHAT IS THIS "); 
 		saveItem =  menu.getItem(0);
 		loadItem =  menu.getItem(1);
 		showHistory = menu.getItem(2);
@@ -133,8 +124,6 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			//Hiding the MenuItems
 			showHistory.setVisible(false);
 		}
-
-
 
 		return true;
 	}
@@ -309,8 +298,8 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		}		
 		else if(key.equals("dataLocation")){
 
-			String value = sharedPreferences.getString(key,"");
-			Log.e(TAG, "value is: "+Integer.parseInt(value));
+			String value = sharedPreferences.getString(key,"0");
+			//Log.e(TAG, "value is: "+Integer.parseInt(value));
 			loadPriceFile(Integer.parseInt(value));
 			
 		//	Toast.makeText(this, "KEY: " +key +" VALUE: " + value, Toast.LENGTH_LONG).show();	
@@ -328,6 +317,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 					saveItem.setVisible(false);
 					loadItem.setVisible(false);
 				}
+				Toast.makeText(this, "Other, KEY: " +key +" VALUE: " + answer, Toast.LENGTH_LONG).show();
 			}
 			else if(key.equals("keepHistory")){
 				
@@ -421,7 +411,9 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 		}
 		//else if the action_history it calls then it enters
 		else if (item.getItemId() == R.id.action_showHistory) {
-			Toast.makeText(this, "History Pressed", Toast.LENGTH_LONG).show();
+			// Start the ListActivity that will show all records
+			Intent intent = new Intent(this, PizzaListActivity.class);	
+			startActivity(intent);
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -541,7 +533,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			// write file
 			adjustPizzaPrice();
 			adjustToppings(Pizza.SMALL);
-			Log.e(TAG + "The result is: ", result);
+			//Log.e(TAG + "The result is: ", result);
 		}
 
 	}
@@ -592,7 +584,7 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			adjustPizzaPrice();
 			adjustToppings(Pizza.SMALL);
 
-			Log.e(TAG + ": this is the result: ", result);
+			//Log.e(TAG + ": this is the result: ", result);
 		}
 		
 	}

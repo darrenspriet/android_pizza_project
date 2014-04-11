@@ -30,6 +30,10 @@
             android:name="com.example.spriet_muthukrishnan.PaymentActivity"
             android:label="Payment Information" >
         </activity>
+        <activity
+            android:name="com.example.spriet_muthukrishnan.PizzaListActivity"
+            android:label="Pizza Ordering History" >
+        </activity>
         <activity android:name="com.example.spriet_muthukrishnan.UserPrefActivity" 
             android:label="@string/app_settings_name">         
         </activity>

@@ -40,21 +40,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Small \n$8" />
+            android:text="Small \nN/A" />
 
         <RadioButton
             android:id="@+id/radMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Medium \n$10" />
+            android:text="Medium \nN/A" />
 
         <RadioButton
             android:id="@+id/radLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Large \n$12" />
+            android:text="Large \nN/A" />
     </RadioGroup>
 
     <TextView

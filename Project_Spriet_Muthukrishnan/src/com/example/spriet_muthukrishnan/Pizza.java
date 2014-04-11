@@ -1,8 +1,5 @@
 package com.example.spriet_muthukrishnan;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,15 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.bool;
-import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
 
 // Pizza class to hold both static info/methods (true to all pizzas)
 // and instance data for a particular pizza 
@@ -51,11 +42,13 @@ public class Pizza implements Parcelable {
 	private double sausagePrice;
 	private double baconPrice;
 	
-	
 	// instance variable for size and toppings
 	private int size;
 	private ArrayList<String> toppings;
 	private double pizzaPrice;
+	
+	// Database ID
+	private long dbId;
 
 	// constructor for default so we can have a Pizza that is empty to use
 	public Pizza() {
@@ -74,10 +67,37 @@ public class Pizza implements Parcelable {
 		pepperoniPrice = 0.0;
 		sausagePrice = 0.0;
 		baconPrice = 0.0;
-		
+		dbId = 0;
 	}
 	
+	// constructor with dbId
+	public Pizza(long dbId) {
+		super();
+		this.size = Pizza.SMALL;
+		toppings = new ArrayList<String>();
+		pizzaPrice = 0.0;
+		smallBasePrice = 0;
+		mediumBasePrice = 0;
+		largeBasePrice = 0;
+		smallFactor = 0;
+		mediumFactor = 0;
+		largeFactor = 0;
+		cheesePrice = 0.0;
+		greenPepperPrice = 0.0;
+		pepperoniPrice = 0.0;
+		sausagePrice = 0.0;
+		baconPrice = 0.0;
+		this.dbId = dbId;
+	}
+	
+	public long getDbId() {
+		return dbId;
+	}
 
+	public void setDbId(long dbId) {
+		this.dbId = dbId;
+	}
+	
 	// constructor with Parcel input for creating instance from Parcel
 	// Called by runtime in readParcelable in PaymentActivity
 	public Pizza(Parcel source) {
@@ -91,7 +111,7 @@ public class Pizza implements Parcelable {
 		
 		pizzaPrice = source.readDouble();
 		
-
+		dbId = source.readLong();
 	}
 	public double getPizzaPrice(){
 		return pizzaPrice;
@@ -223,7 +243,6 @@ public class Pizza implements Parcelable {
 	}
 	
 
-
 	// instance method since we want the price of a specific pizza
 	public double getPrice() {
 		// first get base price
@@ -290,6 +309,7 @@ public class Pizza implements Parcelable {
 		dest.writeStringList(toppings);
 		setPizzaPrice(getPrice());
 		dest.writeDouble(pizzaPrice);
+		dest.writeLong(dbId);
 	}
 
 	// CREATOR class for the parcelling into the intent
@@ -306,8 +326,4 @@ public class Pizza implements Parcelable {
 		}
 	};
 
-
-	
-	
-	
 }

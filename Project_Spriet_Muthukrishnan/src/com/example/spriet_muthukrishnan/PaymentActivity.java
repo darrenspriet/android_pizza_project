@@ -2,10 +2,12 @@ package com.example.spriet_muthukrishnan;
 
 import java.util.Random;
 
+import com.example.spriet_muthukrishnan.db.PizzaDataSource;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -19,7 +21,7 @@ public class PaymentActivity extends Activity {
 	// so need it in another method as well
 	double total;
 	Button btnSaveHistory;
-
+	Pizza pizza;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,12 @@ public class PaymentActivity extends Activity {
 			btnSaveHistory.setEnabled(false);
 		}
 
-
 		// get the intent that launched the Activity
 		Intent intent = getIntent();
 
 		// "inflate" the pizza back into an instance
 		// can do because we implemented Parcelable
-		Pizza pizza = (Pizza) intent.getParcelableExtra("pizza");
+		pizza = (Pizza) intent.getParcelableExtra("pizza");
 
 		// get the base price
 		double price = pizza.getPizzaPrice();
@@ -83,6 +84,13 @@ public class PaymentActivity extends Activity {
 			}
 		}
 	}
+	
+	public void saveOrderHistory(View view) {
+		
+		// do db interactions off of main thread
+		DatabaseTask dbTask = new DatabaseTask();
+		dbTask.execute(pizza);
+	}
 
 	// send failure back to MainActivity
 	private void sendFailure() {
@@ -96,5 +104,25 @@ public class PaymentActivity extends Activity {
 		intent.putExtra("total", total);
 		setResult(RESULT_OK, intent);
 		finish();
+	}
+	
+	private class DatabaseTask extends AsyncTask<Pizza, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Pizza... params) {
+
+			// create PizzaDataSource and call savePizza method
+			PizzaDataSource pizzaData = new PizzaDataSource(getBaseContext());
+			
+			// store returned Student; it now has the id
+			pizza = pizzaData.savePizza(params[0]);
+			
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+		}
 	}
 }

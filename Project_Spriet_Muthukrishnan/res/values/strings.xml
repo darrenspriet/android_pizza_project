@@ -21,7 +21,7 @@
         <item>10</item>
     </string-array>
     <string-array name="priceLocation">
-        <item>Local file(default)</item>
+        <item>Local file (default)</item>
         <item>Server file 1</item>
         <item>Server file 2</item>
         <item>Server file 3</item>
