@@ -89,6 +89,37 @@ public class PizzaDataSource {
 		return pizza; // return pizza with dbId assigned
 	}
 	
+	//Updates the Show History to Unique when the user switches to unique orders
+	public void updatingDatabaseToUniqueEntries(){
+		
+		// get writable database since we want to insert a row
+		if (database == null || !database.isOpen() || database.isReadOnly()) {
+			database = dbOpenHelper.getWritableDatabase();
+		}
+		//gets all the records
+		Cursor allRecords = database.rawQuery("SELECT * from Pizzas", null);
+		//go through all the records
+		while(allRecords.moveToNext())
+		{
+			//pulls out the size and toppings
+		    String pizzaSize=allRecords.getString(SIZE_COLUMN_POSITION);
+		    String toppings=allRecords.getString(TOPPINGS_COLUMN_POSITION);
+
+		    //creates a duplicate query
+			Cursor duplicates = database.rawQuery("SELECT * from Pizzas WHERE size = " + "'" +
+					pizzaSize + "'" + 
+					" AND toppings = " + "'" + toppings + "'", null);
+			
+			//If there are duplicates we go through and remove the duplicate
+			if(duplicates.getCount() >1)
+			{
+				duplicates.moveToFirst();	// There should ONLY be one!!
+				long _id = duplicates.getLong(ID_COLUMN_POSITION);
+				database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});			
+			}	
+		}
+	}
+	
 	// method for getting all pizza records in a Cursor
 	public Cursor getAllPizzas() {
 		

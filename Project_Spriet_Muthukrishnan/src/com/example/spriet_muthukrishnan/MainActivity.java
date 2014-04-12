@@ -386,7 +386,8 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			else if(key.equals("keepHistoryUnique")){
 				
 				if(answer){
-					//On
+					DatabaseTask myHelper = new DatabaseTask();
+					myHelper.execute("keepHistoryUnique");
 				   
 				}else{
 					//Off
@@ -654,6 +655,9 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 				
 				int maxOrders = Integer.parseInt(myPrefs.getString("numOfOrders", "10"));
 				pizzaData.updateDBNumberOfOrders(maxOrders);
+			}
+			else if (params[0].equals("keepHistoryUnique")){
+				pizzaData.updatingDatabaseToUniqueEntries();
 			}
 			
 			return null;
