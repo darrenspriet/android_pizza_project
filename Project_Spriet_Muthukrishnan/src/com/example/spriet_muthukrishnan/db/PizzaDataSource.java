@@ -4,12 +4,9 @@ import com.example.spriet_muthukrishnan.Pizza;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 public class PizzaDataSource {
 	
@@ -67,8 +64,7 @@ public class PizzaDataSource {
 											" AND toppings = " + "'" + toppings + "'", null);
 		// If history needs to be unique, and there is a duplicate
 		// remove the duplicate before inserting
-		if (unique && duplicates.getCount() > 0)
-		{
+		if (unique && duplicates.getCount() > 0){
 			duplicates.moveToFirst();	// There should ONLY be one!!
 			long _id = duplicates.getLong(ID_COLUMN_POSITION);
 			database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});
@@ -99,8 +95,7 @@ public class PizzaDataSource {
 		//gets all the records
 		Cursor allRecords = database.rawQuery("SELECT * from Pizzas", null);
 		//go through all the records
-		while(allRecords.moveToNext())
-		{
+		while(allRecords.moveToNext()){
 			//pulls out the size and toppings
 		    String pizzaSize=allRecords.getString(SIZE_COLUMN_POSITION);
 		    String toppings=allRecords.getString(TOPPINGS_COLUMN_POSITION);
@@ -111,8 +106,7 @@ public class PizzaDataSource {
 					" AND toppings = " + "'" + toppings + "'", null);
 			
 			//If there are duplicates we go through and remove the duplicate
-			if(duplicates.getCount() >1)
-			{
+			if(duplicates.getCount() >1){
 				duplicates.moveToFirst();	// There should ONLY be one!!
 				long _id = duplicates.getLong(ID_COLUMN_POSITION);
 				database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});			
@@ -154,8 +148,7 @@ public class PizzaDataSource {
 		else {
 			pizzas.moveToFirst();
 			int deletedRecords = 0;
-			while (deletedRecords < pizzas.getCount() - maxOrders)
-			{
+			while (deletedRecords < pizzas.getCount() - maxOrders){
 				long _id = pizzas.getLong(ID_COLUMN_POSITION);
 				database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});
 				pizzas.moveToNext();

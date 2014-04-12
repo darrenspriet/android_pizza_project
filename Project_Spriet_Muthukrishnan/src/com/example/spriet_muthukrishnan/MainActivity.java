@@ -6,14 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.example.spriet_muthukrishnan.db.PizzaDataSource;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
