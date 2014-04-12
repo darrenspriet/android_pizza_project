@@ -40,8 +40,11 @@ public class PizzaDataSource {
 	}
 
 	// method for saving pizza order info into database
-	public Pizza savePizza(Pizza pizza, boolean unique) {
+	public Pizza savePizza(Pizza pizza, boolean unique, boolean keepHistory, int maxOrders) {
 		
+		if(!keepHistory) {
+			return null;
+		}
 		// get writable database since we want to insert a row
 		if (database == null || !database.isOpen() || database.isReadOnly()) {
 			database = dbOpenHelper.getWritableDatabase();
@@ -59,13 +62,25 @@ public class PizzaDataSource {
 		}
 		values.put(TOPPINGS_COLUMN, toppings);
 		
-		Cursor records = database.rawQuery("SELECT * from Pizzas WHERE size = " + "'" +
+		Cursor duplicates = database.rawQuery("SELECT * from Pizzas WHERE size = " + "'" +
 											Pizza.getSizeString(pizza.getSize()) + "'" + 
 											" AND toppings = " + "'" + toppings + "'", null);
-		// If requested, only save unique orders!
-		if (unique && records.getCount() > 0)
+		// If history needs to be unique, and there is a duplicate
+		// remove the duplicate before inserting
+		if (unique && duplicates.getCount() > 0)
 		{
-			return null;
+			duplicates.moveToFirst();	// There should ONLY be one!!
+			long _id = duplicates.getLong(ID_COLUMN_POSITION);
+			database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});
+		}
+		
+		Cursor records = database.rawQuery("SELECT * from Pizzas", null);
+		// Delete the first record before adding another one if there are too many
+		if (records.getCount() >= maxOrders) {
+			
+			records.moveToFirst();
+			long _id = records.getLong(ID_COLUMN_POSITION);
+			database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});
 		}
 		
 		long dbId = database.insert(TABLE_NAME, null, values);
@@ -89,6 +104,51 @@ public class PizzaDataSource {
 		Cursor pizzas = database.rawQuery("SELECT * from Pizzas", null);
 		
 		return pizzas;
+	}
+	
+	// Update the database to reflect number of orders to keep in history
+	public void updateDBNumberOfOrders(int maxOrders) {
+		
+		// get readable database since we only want to read
+		if (database == null || !database.isOpen()) {
+			database = dbOpenHelper.getReadableDatabase();
+		}
+		
+		// Get a list of records
+		Cursor pizzas = database.rawQuery("SELECT * from Pizzas", null);
+		// Don't do anything if there aren't enough records
+		if (pizzas.getCount() <= maxOrders) {
+			return;
+		}
+		else {
+			pizzas.moveToFirst();
+			int deletedRecords = 0;
+			while (deletedRecords < pizzas.getCount() - maxOrders)
+			{
+				long _id = pizzas.getLong(ID_COLUMN_POSITION);
+				database.delete(TABLE_NAME, "_id = ?", new String[] {String.valueOf(_id)});
+				pizzas.moveToNext();
+				deletedRecords++;
+			}
+		}
+		
+	}
+	
+	// Update the database to reflect keep history preference
+	public void updateDBKeepHistory(boolean keepHistory) {
+		
+		// Don't do anything if they want to keep the history
+		if (keepHistory) {
+			return;
+		}
+		else {
+			// get readable database since we only want to read
+			if (database == null || !database.isOpen()) {
+				database = dbOpenHelper.getReadableDatabase();
+			}
+			// Delete the records
+			database.delete(TABLE_NAME, null, null);
+		}
 	}
 
 	public void removePizza(long _id) {

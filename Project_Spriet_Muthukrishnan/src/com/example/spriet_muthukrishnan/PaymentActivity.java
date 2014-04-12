@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PaymentActivity extends Activity {
 
@@ -117,7 +118,9 @@ public class PaymentActivity extends Activity {
 			// Save this pizza order to the database
 			SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(PaymentActivity.this);
 			boolean uniqueHistory = myPrefs.getBoolean("keepHistoryUnique",false);
-			pizzaData.savePizza(params[0], uniqueHistory);
+			boolean keepHistory = myPrefs.getBoolean("keepHistory",false);
+			int maxRecords = Integer.parseInt(myPrefs.getString("numOfOrders","10"));
+			pizzaData.savePizza(params[0], uniqueHistory, keepHistory, maxRecords);
 			
 			return null;
 		}

@@ -64,7 +64,7 @@ public class PizzaListActivity extends ListActivity {
 			
 			toppings += ", " + separated[i];
 		}
-		String title = Pizza.getSizeString(pizza.getSize()) + " pizza with " + toppings;
+		String title = Pizza.getSizeString(pizza.getSize()) + " pizza with " + toppings.toLowerCase();
 		menu.setHeaderTitle(title);
 		
 		// add two menu items

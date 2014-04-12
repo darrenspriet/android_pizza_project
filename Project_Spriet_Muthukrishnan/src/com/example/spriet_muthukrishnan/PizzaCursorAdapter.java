@@ -42,7 +42,7 @@ public class PizzaCursorAdapter extends ResourceCursorAdapter {
 		
 		// set values; cursor is already at proper position
 		txtSize.setText(cursor.getString(PizzaDataSource.SIZE_COLUMN_POSITION) + " pizza with");
-		txtToppings.setText(cursor.getString(PizzaDataSource.TOPPINGS_COLUMN_POSITION));
+		txtToppings.setText(cursor.getString(PizzaDataSource.TOPPINGS_COLUMN_POSITION).toLowerCase());
 	}
 
 	@Override

@@ -29,7 +29,8 @@
             android:entryValues="@array/numberOfOrdersValues"
             android:key="numOfOrders"
             android:summary="to keep in history"
-            android:title="Number of orders" />
+            android:title="Number of orders"
+            android:defaultValue="10" />
         
           <CheckBoxPreference
             android:defaultValue="false"

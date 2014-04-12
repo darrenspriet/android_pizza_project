@@ -195,7 +195,7 @@ public class Pizza implements Parcelable {
 	public void LoadFromFile(String jsonData){
 		
 		try {
-		Log.e(TAG, "Pizza info is here"+jsonData);
+		//Log.e(TAG, "Pizza info is here"+jsonData);
 
 		//Now use the Data to fill in the getTopping Price infromation!!!!
 		JSONObject wrapper = new JSONObject(jsonData);

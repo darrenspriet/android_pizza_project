@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.spriet_muthukrishnan.db.PizzaDataSource;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -339,9 +341,11 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		
-		if(key.equals("numOfOrders") ){
-			String value = sharedPreferences.getString(key,"");
-			Toast.makeText(this, "KEY: " +key +" VALUE: " + value, Toast.LENGTH_LONG).show();	
+		if(key.equals("numOfOrders") ) {
+			
+			DatabaseTask myHelper = new DatabaseTask();
+			myHelper.execute("numberOfRecords");
+			//Toast.makeText(this, "KEY: " +key +" VALUE: " + value, Toast.LENGTH_LONG).show();	
 		}		
 		else if(key.equals("dataLocation")){
 
@@ -368,6 +372,8 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			}
 			else if(key.equals("keepHistory")){
 				
+				DatabaseTask myHelper = new DatabaseTask();
+				myHelper.execute("keepHistory");
 				if(answer){
 					//Hiding the MenuItems
 				    showHistory.setVisible(true);
@@ -579,7 +585,6 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 			adjustToppings(Pizza.SMALL);
 			//Log.e(TAG + "The result is: ", result);
 		}
-
 	}
 	
 	private class RawFileHelperTask extends AsyncTask<Void, Void, String> {
@@ -608,7 +613,6 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 						Log.e(TAG + ": in doInBackground: finally", e.toString());
 					}
 				}
-	
 		}	
 		private String parsePizzaLocalFile(String jsonData) {
 						
@@ -630,7 +634,35 @@ public class MainActivity extends Activity implements 	RadioGroup.OnCheckedChang
 
 			//Log.e(TAG + ": this is the result: ", result);
 		}
-		
+	}
+	
+	private class DatabaseTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+
+			// create PizzaDataSource and call savePizza method
+			PizzaDataSource pizzaData = new PizzaDataSource(getBaseContext());
+			SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+			
+			if (params[0].equals("keepHistory")) {
+				
+				boolean keepHistory = myPrefs.getBoolean("keepHistory",false);
+				pizzaData.updateDBKeepHistory(keepHistory);
+			}
+			else if (params[0].equals("numberOfRecords")) {
+				
+				int maxOrders = Integer.parseInt(myPrefs.getString("numOfOrders", "10"));
+				pizzaData.updateDBNumberOfOrders(maxOrders);
+			}
+			
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+		}
 	}
 	
 }
